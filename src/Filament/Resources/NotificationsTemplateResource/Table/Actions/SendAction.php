@@ -3,9 +3,12 @@
 namespace TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource\Table\Actions;
 
 use Filament\Forms;
-use Filament\Notifications\Notification;
+use App\Models\User;
 use Filament\Tables;
+use Illuminate\Support\Facades\Notification;
 use TomatoPHP\FilamentAlerts\Facades\FilamentAlerts;
+use TomatoPHP\FilamentAlerts\Notifications\SendTemplateNotification;
+use Filament\Notifications\Notification as FilamentNotification;
 
 class SendAction extends Action
 {
@@ -18,8 +21,7 @@ class SendAction extends Action
             ->tooltip(trans('filament-alerts::messages.actions.send.label'))
             ->icon('heroicon-o-bell')
             ->form(fn ($record) => [
-                Forms\Components\Hidden::make('template_id')
-                    ->default($record->id),
+                Forms\Components\Hidden::make('template_id')->default($record->id),
                 Forms\Components\Select::make('privacy')
                     ->label(trans('filament-alerts::messages.actions.send.form.privacy'))
                     ->searchable()
@@ -46,13 +48,30 @@ class SendAction extends Action
                     ->required(),
             ])
             ->action(function (array $data, $record) {
-                FilamentAlerts::notify()
-                    ->model($data['model_type'])
-                    ->modelId($data['model_id'] ?? null)
-                    ->template($record->id)
-                    ->send();
 
-                Notification::make()
+                if ($data['privacy'] === 'private') {
+                    // Private notification to one user
+                    FilamentAlerts::notify()
+                        ->model($data['model_type'])
+                        ->modelId($data['model_id'])
+                        ->template($record->id)
+                        ->send();
+
+                } else {
+                    // Public notification to all users via queued job
+                    User::chunkById(200, function ($users) use ($record , $data) {
+                        foreach ($users as $user) {
+                            FilamentAlerts::notify()
+                            ->model($data['model_type'])
+                            ->modelId($user->id ?? null)
+                            ->template($record->id)
+                            ->send();
+
+                        }
+                    });
+                }
+
+                FilamentNotification::make()
                     ->title(trans('filament-alerts::messages.actions.send.notification'))
                     ->success()
                     ->send();
