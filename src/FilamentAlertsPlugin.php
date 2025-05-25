@@ -160,11 +160,11 @@ class FilamentAlertsPlugin implements Plugin
             FilamentAlerts::register(
                 [
                     NotificationAction::make('system')
-                        ->label('System')
+                        ->label(__('filament-alerts::messages.actions.system'))
                         ->icon('heroicon-o-cog')
                         ->color('primary'),
                     NotificationAction::make('manual')
-                        ->label('Manual')
+                        ->label(__('filament-alerts::messages.actions.manual'))
                         ->icon('heroicon-o-hand')
                         ->color('info'),
                 ]

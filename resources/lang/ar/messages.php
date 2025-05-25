@@ -16,6 +16,8 @@ return [
             ],
             'notification' => 'تم إرسال التنبيه',
         ],
+        'system' => 'النظام',
+        'manual' => 'يدوي',
     ],
     'templates' => [
         'title' => 'التنبيهات',
@@ -72,4 +74,5 @@ return [
             'mail_from_name' => 'From Name',
         ],
     ],
+
 ];
