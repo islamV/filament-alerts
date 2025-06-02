@@ -49,7 +49,7 @@ class SendAction extends Action
                         }
                         return $modelType::get()->mapWithKeys(function ($item) {
                             // Show name if available, otherwise username
-                            $label = $item->name ?? $item->username ?? 'Unknown';
+                            $label = $item->username;
                             return [$item->id => $label];
                         })->toArray();
                     })

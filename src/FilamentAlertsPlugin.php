@@ -32,8 +32,8 @@ class FilamentAlertsPlugin implements Plugin
     public ?bool $hideNotificationsResource = false;
 
     public ?array $lang = [
-        'en' => 'English',
         'ar' => 'Arabic',
+        'en' => 'English',
     ];
 
     public function register(Panel $panel): void
