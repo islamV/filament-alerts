@@ -4,7 +4,7 @@ namespace TomatoPHP\FilamentAlerts\Filament\Pages;
 
 use BackedEnum;
 use Filament\Actions\Action;
-use Filament\Forms\Components\Grid;
+use Filament\Schemas\Components\Grid;
 use Filament\Forms\Components\TextInput;
 use Filament\Pages\SettingsPage;
 use Filament\Schemas\Schema;
