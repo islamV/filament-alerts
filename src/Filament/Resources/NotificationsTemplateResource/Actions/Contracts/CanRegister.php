@@ -2,7 +2,7 @@
 
 namespace TomatoPHP\FilamentAlerts\Filament\Resources\NotificationsTemplateResource\Actions\Contracts;
 
-use Filament\Actions\StaticAction;
+use Filament\Actions\Action as FilamentAction;
 use Filament\Pages\Page;
 use Filament\Schemas\Schema;
 use Filament\Support\Concerns\EvaluatesClosures;
@@ -26,7 +26,7 @@ trait CanRegister
 
     public function getActions(): array
     {
-        return collect($this->getDefaultActions())->merge(self::$actions)->map(function (StaticAction $action) {
+        return collect($this->getDefaultActions())->merge(self::$actions)->map(function (FilamentAction $action) {
             if (method_exists($action, 'record') && str($action->getName())->contains(['create', 'edit', 'view', 'impersonate'])) {
                 $action->record(method_exists(self::$page, 'getRecord') ? self::$page->getRecord() : null)
                     ->model(method_exists(self::$page, 'getModel') ? self::$page->getModel() : null)
@@ -39,11 +39,11 @@ trait CanRegister
         })->toArray();
     }
 
-    public static function register(StaticAction | array | \Closure $component): void
+    public static function register(FilamentAction | array | \Closure $component): void
     {
         if (is_array($component)) {
             foreach ($component as $item) {
-                if ($item instanceof StaticAction) {
+                if ($item instanceof FilamentAction) {
                     self::$actions[] = $item;
                 }
             }
