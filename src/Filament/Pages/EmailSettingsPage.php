@@ -2,6 +2,7 @@
 
 namespace TomatoPHP\FilamentAlerts\Filament\Pages;
 
+use BackedEnum;
 use Filament\Actions\Action;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\TextInput;
@@ -11,7 +12,7 @@ use TomatoPHP\FilamentAlerts\Settings\EmailSettings;
 
 class EmailSettingsPage extends SettingsPage
 {
-    protected static ?string $navigationIcon = 'heroicon-o-cog';
+    protected static BackedEnum|string|null $navigationIcon = 'heroicon-o-cog';
 
     protected static string $settings = EmailSettings::class;
 

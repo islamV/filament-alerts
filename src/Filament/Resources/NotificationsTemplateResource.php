@@ -2,6 +2,7 @@
 
 namespace TomatoPHP\FilamentAlerts\Filament\Resources;
 
+use BackedEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Tables\Table;
@@ -12,7 +13,7 @@ class NotificationsTemplateResource extends Resource
 {
     protected static ?string $model = NotificationsTemplate::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-bell';
+    protected static BackedEnum|string|null $navigationIcon = 'heroicon-o-bell';
 
     protected static ?int $navigationSort = 1;
 
