@@ -36,7 +36,7 @@ trait CanRegister
             }
 
             return $action;
-        })->toArray();
+        })->all();
     }
 
     public static function register(FilamentAction | array | \Closure $component): void
@@ -48,7 +48,17 @@ trait CanRegister
                 }
             }
         } elseif ($component instanceof \Closure) {
-            self::$actions[] = (new self)->evaluate($component);
+            $result = (new self)->evaluate($component);
+
+            if (is_array($result)) {
+                foreach ($result as $item) {
+                    if ($item instanceof FilamentAction) {
+                        self::$actions[] = $item;
+                    }
+                }
+            } elseif ($result instanceof FilamentAction) {
+                self::$actions[] = $result;
+            }
         } else {
             self::$actions[] = $component;
         }
